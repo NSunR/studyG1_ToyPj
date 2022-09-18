@@ -1,0 +1,456 @@
+<!Doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="iE=edge">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+    <title>장소추천- 지역 선택</title>
+    <style>
+        /* reset.css */
+        * {
+            font-family: 'Noto Sans KR', sans-serif;
+            color: #1d3557;
+        }
+
+        html, body,
+        header, section, article, footer,
+        ul, li, ol, dl, div, aside, button, textarea, input, label, address {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            outline: 0;
+        }
+
+        a {
+            text-decoration: none;
+            text-align: center;
+            color: inherit;
+            font-size: 20px;
+        }
+
+        ul, li, ol {
+            list-style: none;
+        }
+
+        /* mainpage */
+        #wrap {
+            width: 100%;
+            height: 100%;
+
+            background-color: skyblue;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        /* 타이틀과 메뉴들*/
+        #orderBox {
+            width: 100%;
+            height: 200px;
+
+            border-bottom: 1px solid white;
+        }
+
+        #orderBox > h2 {
+            width: 300px;
+            height: 50px;
+
+            margin: 50px auto;
+
+            text-align: center;
+
+            font-weight: bold;
+        }
+
+        #orderBox > h2 > a {
+            font-size: 40px;
+        }
+
+        #orderBox > h2 > a:hover {
+            color: #1d3557;
+            font-weight: bold;
+        }
+
+        #orderBox > ul {
+            width: 900px;
+            height: 50px;
+
+            margin: 50px auto;
+        }
+
+        #orderBox li {
+            float: left;
+            width: 300px;
+            height: 50px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #orderBox li > a {
+            color: white;
+        }
+
+        #orderBox li > a:hover {
+            color: #1d3557;
+            font-weight: bold;
+        }
+
+        /* 지역과 날씨 정보*/
+        #infoBox {
+            float: left;
+            width: 100%;
+            height: 800px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #infoBox > h2 {
+            width: 200px;
+            height: 50px;
+
+            margin-bottom: 10px;
+
+            border-radius: 10px;
+            background-color: #1d3557;
+
+            color: white;
+            text-align: center;
+        }
+
+        #infoBox > h2 > a:hover {
+            color: white;
+            cursor: default;
+        }
+
+        /* 지역 선택, 날씨/기온 */
+        .infowrap {
+            width: 800px;
+            height: 600px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            border: 1px solid white;
+            border-radius: 20px;
+
+            /*background-color: rgba(255, 255, 255, 0.2);*/
+        }
+
+        .whereBox {
+            width: 500px;
+            height: 60px;
+
+            margin-top: 50px;
+            margin-bottom: 50px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            border: 1px solid #1d3557;
+            border-radius: 10px;
+
+            color: rgba(29, 53, 97, 0.4);
+        }
+
+        .whereBox:hover {
+            box-shadow: 0px 0px 8px 4px #fff;
+        }
+
+        /* options - 서울, 인천, 화성, 수원 */
+        .whereBox option {
+            text-align: center;
+
+            font-size: 20px;
+        }
+
+        .selBox_title {
+            width: 200px;
+            height: 100px;
+
+            font-size: 18px;
+        }
+
+        .selBox {
+            width: 498px;
+
+            border-radius: 10px;
+
+            font-size: 18px;
+        }
+
+        .selBox > option {
+            color: #1d3557;
+        }
+
+        /* 기온, 날씨 */
+
+        .wheatherBox {
+            width: 500px;
+            height: 300px;
+
+            margin-bottom: 30px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .wheatherBox > h3 > a:hover {
+            font-size: 20px;
+
+            color: #1d3557;
+            cursor: default;
+        }
+
+        .wheatherBox > h3:hover {
+            cursor: default;
+        }
+
+        .wheatherBox > p {
+            font-size: 30px;
+        }
+
+        .wheatherimg {
+            width: 150px;
+            height: 150px;
+        }
+
+        /* 확인 버튼 */
+        #btnBox {
+            width: 200px;
+            height: 50px;
+
+            margin-top: 20px;
+            margin-bottom: 50px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #btnBox > button {
+            width: 60px;
+            height: 50px;
+
+            border-radius: 10px;
+
+            color: white;
+            font-size: 20px;
+            background-color: #1d3557;;
+        }
+
+        #btnBox > button:hover {
+            box-shadow: 0px 0px 8px 4px #fff;
+        }
+
+
+        /* copyright - footBox */
+        #footBox {
+            width: 100%;
+            height: 160px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            background-color: #1d3557;
+        }
+
+        #footBox > h2 {
+            position: absolute;
+            z-index: -1;
+        }
+
+        #footBox > address {
+            width: 800px;
+            height: 50px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            color: white;
+        }
+    </style>
+
+    <script>
+        $(document).ready(function () {
+            $('#floatingSelect').change(function() {
+                let result = $('#floatingSelect option:selected').val();
+
+                if (result === "선택"){
+                    $('#icon').empty();
+                    $('#temp').empty();
+                }else if(result === "서울"){
+                     $.ajax({
+                         type: "GET",
+                         url: "http://spartacodingclub.shop/sparta_api/weather/seoul",
+                         data: {},
+                         success: function (response) {
+                             // console.log(response);
+                             let icon = response["icon"];
+                             let temp = response["temp"];
+                             // //console.log(url,msg);
+                             $('#icon').attr("src", icon);
+                             $('#temp').text(temp);
+                             console.log(icon, temp);
+
+                         }
+                     });
+                    let btn_sel = $('#btnBox > button');
+                    btn_sel.on("click", function () {
+                        location.href = '/place_seoul';
+                    });
+                }else if(result === '인천'){
+                     $.ajax({
+                         type: "GET",
+                         url: "http://spartacodingclub.shop/sparta_api/weather/incheon",
+                         data: {},
+                         success: function (response) {
+                             // console.log(response);
+                             let icon = response["icon"];
+                             let temp = response["temp"];
+                             // //console.log(url,msg);
+                             $('#icon').attr("src", icon);
+                             $('#temp').text(temp);
+
+
+                         }
+                     });
+                    let btn_sel = $('#btnBox > button');
+                    btn_sel.on("click", function () {
+                        location.href = '/place_incheon';
+
+                    });
+                }else if(result === '화성'){
+                     $.ajax({
+                         type: "GET",
+                         url: "http://spartacodingclub.shop/sparta_api/weather/hwaseong",
+                         data: {},
+                         success: function (response) {
+                             // console.log(response);
+                             let icon = response["icon"];
+                             let temp = response["temp"];
+                             // //console.log(url,msg);
+                             $('#icon').attr("src", icon);
+                             $('#temp').text(temp);
+
+
+                         }
+                     });
+                    let btn_sel = $('#btnBox > button');
+                    btn_sel.on("click", function () {
+                        location.href = '/place_hwaseong';
+
+                    });
+                }else if(result === '수원'){
+                    $.ajax({
+                        type: "GET",
+                        url: "http://spartacodingclub.shop/sparta_api/weather/suwon",
+                        data: {},
+                        success: function (response) {
+                            // console.log(response);
+                            let icon = response["icon"];
+                            let temp = response["temp"];
+                            // //console.log(url,msg);
+                            $('#icon').attr("src", icon);
+                            $('#temp').text(temp);
+
+
+                        }
+                    });
+                    let btn_sel = $('#btnBox > button');
+                    btn_sel.on("click", function () {
+                        location.href = '/place_suwon';
+                    });
+                }
+            });
+        });
+
+
+
+
+
+    </script>
+</head>
+<body>
+<div id="wrap">
+    <header id="orderBox"><!-- header -->
+        <h2><a href="http://jeongjin-yoon.shop/">모 운 다 모</a></h2>
+        <ul class="nav justify-content-center">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="CorrectExercise" href="http://jeongjin-yoon.shop/">맞춤운동</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="RecommendedPlaces" href="/">장소추천</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="Community" href="http://sooyeon.shop/">커뮤니티</a>
+            </li>
+        </ul>
+    </header>
+
+    <section id="infoBox"><!-- section -->
+        <h2 class="info_top"><a href="#">지역과 날씨</a></h2>
+        <div class="infowrap">
+            <div class="form-floating whereBox">
+                <select class="form-select selBox" id="floatingSelect" aria-label="Floating label select example">
+                    <option selected value="선택">--지역 선택--</option>
+                    <option value="서울">서울</option>
+                    <option value="인천">인천</option>
+                    <option value="화성">화성</option>
+                    <option value="수원">수원</option>
+                </select>
+                <label class="selBox_title" for="floatingSelect">나의 지역 선택</label>
+            </div>
+            <div class="wheatherBox">
+                <h3><a href="#">나의 지역</a></h3>
+                <p>오늘의 날씨: <span id="temp"></span>도</p>
+                <img class="wheatherimg" id="icon" src="#" alt="날씨이미지"/>
+            </div>
+            <div id="btnBox">
+                <button type="button">확인</button>
+            </div>
+        </div>
+    </section>
+
+    <footer id="footBox"><!-- footer -->
+        <h2>모운다모</h2>
+        <address>
+            copyright &copy; 항해99 9기 사전스터디 1조 모운다모
+        </address>
+        <div class="contact"></div>
+    </footer>
+</div>
+
+</body>
+</html>

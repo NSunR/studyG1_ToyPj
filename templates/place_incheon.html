@@ -1,0 +1,787 @@
+<!Doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="iE=edge">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+    <title>장소추천- 인천</title>
+    <style>
+        /* reset.css */
+        * {
+            font-family: 'Noto Sans KR', sans-serif;
+            color: white;
+        }
+        html,body,
+        header, section, article, footer,
+        ul, li, ol, dl, div, aside, button, textarea, input, label{ margin: 0; padding: 0; border: 0; outline: 0;}
+
+        a {
+            text-decoration: none;
+            text-align: center;
+            color: white;
+            font-size: 20px;
+        }
+        ul,li,ol{
+                list-style: none;
+        }
+        /* mainpage */
+        #wrap{
+            width: 100%;
+            height: 100%;
+
+            background-color: skyblue;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+        }
+        /* 타이틀과 메뉴들*/
+        #orderBox {
+            width: 100%;
+            height: 200px;
+
+            border-bottom:1px solid white;
+        }
+        #orderBox > h2 {
+            width: 300px;
+            height: 50px;
+
+            margin:50px auto;
+
+            text-align: center;
+        }
+        #orderBox > h2 > a {
+            font-size: 40px;
+        }
+        #orderBox > h2 > a:hover {
+            color: #1d3557;
+            font-weight: bold;
+        }
+        #orderBox > ul {
+            width: 900px;
+            height: 50px;
+
+            margin:50px auto;
+        }
+        #orderBox li {
+            float: left;
+            width: 300px;
+            height: 50px;
+
+            display:flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        #orderBox li > a {
+            color: white;
+        }
+        #orderBox li > a:hover {
+            color: #1d3557;
+            font-weight: bold;
+        }
+
+        /* 지역과 날씨 정보*/
+        #infoBox {
+            float: left;
+            width: 100%;
+            height: 260px;
+
+            background-image: linear-gradient(0deg, rgba(29, 53, 97, 0.4), rgba(0, 0, 0, 0.4)),url('https://images.unsplash.com/photo-1446733993804-c62a351c7239?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1548&q=80');
+            background-position: center;
+            background-size: cover;
+
+            display:flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #infoBox > h2 {
+            display: block;
+            position: absolute; z-index: -1;
+        }
+
+        .infowrap {
+            width: 800px;
+            height: 200px;
+        }
+        .infowrap > div{
+            width: 300px;
+            height: 200px;
+
+            display:flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            border-radius: 10px;
+
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .where {
+            float: left;
+        }
+        .where > p {
+            font-size: 50px;
+        }
+        .wheather {
+            float: right;
+        }
+        .wheather > h3 {
+            width: 160px;
+            text-align: center;
+            margin-bottom: 0;
+        }
+        .wheather > p {
+            font-size: 20px;
+
+            margin-bottom: 0;
+        }
+        .wheatherimg {
+            width: 120px;
+            height: 120px;
+        }
+        .infowrap > div a {
+            cursor: default;
+            font-size: 30px;
+        }
+        .infowrap > div a:hover {
+            color: white;
+        }
+
+
+        /* 운동시설 추천게시판 */
+        #recommdBox {
+            width: 1440px;
+            height: 100%;
+
+            padding-top: 30px;
+            /*padding-bottom: 20px;*/
+
+            box-sizing: border-box;
+        }
+        #recommdBox > h2 {
+            display: block;
+            position: absolute; z-index: -1;
+        }
+
+
+        #recommdBox > article > h3 {
+            width: 200px;
+            height: 50px;
+
+            display:flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            border-radius: 10px;
+            background-color: #1d3557;
+
+            box-sizing: border-box;
+
+        }
+        #recommdBox > article > h3 > a {
+            cursor: default;
+            font-size: 20px;
+        }
+        #recommdBox > article > h3 > a:hover {
+             color: white;
+         }
+
+        /* 추천하기 폼 */
+        .recoPost {
+            display: none;
+            width: 500px;
+
+            margin: 20px auto 0 auto;
+            padding: 20px;
+
+            box-shadow: 0 0 3px 0;
+
+            color: #1d3557;
+        }
+        .recoPost_btn {
+            width: 200px;
+            height: 50px;
+
+            margin: 20px auto 0 auto;
+        }
+        input, label {
+            color: #1d3557;
+        }
+        .recoPost_btn > button {
+            border: none;
+            border-radius: 10px;
+        }
+        .open_Btn {
+            float: left;
+            width: 100px;
+            height: 40px;
+
+            margin-right: 20px;
+
+            background-color: #1d3557;
+        }
+        .close_Btn {
+            width: 60px;
+            height: 40px;
+
+            color: #1d3557;
+
+            background-color: white;
+        }
+
+        /* recommdBox - common cards */
+        .cards_row {
+            width: 694px;
+            height: 100%;
+
+            margin-top: 20px;
+            margin-bottom: 20px;
+
+            padding-top: 30px;
+            padding-left: 30px;
+
+            border: 1px solid white;
+            border-radius: 10px;
+
+            box-sizing: border-box;
+        }
+        .cards_Box {
+            width: 300px;
+            height: 420px;
+
+            margin: 0px 30px 40px 0;
+            padding: 0;
+
+            display:flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            border-radius: 10px;
+
+            box-shadow: 1px 1px 5px 0px #1d3557;
+
+            /*background-color: blue;*/
+
+        }
+        .cards_Box:hover {
+            box-shadow: 3px 3px 5px 1px #1d3557;
+        }
+        .cards {
+            width: 280px;
+            height: 200px;
+
+            padding: 10px 10px 0 0;
+        }
+        .card-title {
+            background-color: #1d3557;
+            border-radius: 5px;
+        }
+        .card-title > a:hover {
+            color: white;
+        }
+        .cards > img {
+            width: 280px;
+            height: 180px;
+        }
+        .cards > img:hover {
+            cursor:pointer;
+        }
+        /* card-body - 장소이름, 주소, 코멘트 묶음 */
+        .card-body {
+            width: 280px;
+            height: 220px;
+        }
+        .card-text {
+            display: block;
+            width: 260px;
+            height: 70px;
+            overflow: auto;
+        }
+        .card-body > address {
+            width: 260px;
+            height: 50px;
+
+            overflow: hidden;
+
+            margin-bottom: 0;
+        }
+        .star-text {
+            width: 260px;
+            height: 30px;
+
+            margin-bottom: 0;
+        }
+        .card-text {
+            display: block;
+            width: 260px;
+            height: 70px;
+            overflow: auto;
+        }
+
+        /* 실내운동시설 - inplace_box */
+        .inplace_box {
+            float: left;
+            position:relative;
+
+            width: 700px;
+            height: 100%;
+
+            margin-left: 10px;
+
+            display:flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .inplace_box > button {
+            position: absolute; top:0; right: 10px;
+            float: right;
+            width: 150px;
+            height: 50px;
+
+            border-radius: 10px;
+            border: 1px solid #1d3557;
+            /*background-color: #1d3557;*/
+            background-color: transparent;
+
+            font-size: 20px;
+        }
+        .inplace_box > button:hover {
+             color: #fff;
+             border: none;
+             box-shadow: 3px 3px 4px 0px #1d3557;
+
+             background-color: #1d3557;
+         }
+
+        /* 실외운동시설 - outplace_box */
+        .outplace_box {
+            float: right;
+            position: relative;
+
+            width: 700px;
+            height: 100%;
+
+            margin-right:10px;
+
+            display:flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .outplace_box > button {
+            position: absolute; top:0px; left: 10px;
+            float: left;
+            width: 150px;
+            height: 50px;
+
+            border-radius: 10px;
+            border: 1px solid #1d3557;
+            /*background-color: #1d3557;*/
+            background-color: transparent;
+
+            font-size: 20px;
+        }
+        .outplace_box > button:hover {
+            color: #fff;
+            border: none;
+            box-shadow: 3px 3px 4px 0px #1d3557;
+
+            background-color: #1d3557;
+        }
+
+
+        /* copyright - footBox */
+        #footBox {
+            width: 100%;
+            height: 100px;
+
+            display:flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            background-color: #1d3557;
+        }
+        .topbtnBox {
+            display: none;
+            position: fixed; bottom: 110px; z-index: 9999px;
+            /*width: 80px;*/
+            /*height: 60px;*/
+            width: 70px;
+            height: 60px;
+
+            margin: 0 auto 0 auto;
+
+            border-radius: 20px;
+
+            background-color: rgba(29,53,97,0.8);
+        }
+        .topbtnBox > a {
+            display: block;
+
+            margin: 14px auto 0 auto;
+        }
+        .topbtnBox > a:hover {
+            color: inherit;
+        }
+        #footBox > address {
+            width: 1000px;
+            height: 50px;
+
+            margin-bottom: 0;
+
+            display:flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        #footBox > address > a:hover {
+             text-align: center;
+             cursor: default;
+             color: white;
+        }
+    </style>
+
+    <script>
+        $(document).ready(function () {
+            set_temp();
+            listing();
+            out_listing();
+        });
+        //기온,날씨
+        function set_temp() {
+            $.ajax({
+                     type: "GET",
+                     url: "http://spartacodingclub.shop/sparta_api/weather/incheon",
+                     data: {},
+                     success: function (response) {
+                         // console.log(response);
+                         let icon = response["icon"];
+                         let temp = response["temp"];
+                         // //console.log(url,msg);
+                         $('#icon').attr("src", icon);
+                         $('#temp').text(temp);
+
+
+                     }
+                 });
+        }
+
+        //실내운동시설 추천하기- 조회
+        function listing() {
+            $.ajax({
+                type:'GET',
+                url:'/incheonplace',
+                data: {},
+                success:function(response) {
+                    // console.log(response['incheonplaces']);
+                    let rows = response['incheonplaces'];
+                    for ( let i = 0; i < rows.length; i++){
+                        let url = rows[i]['url'];
+                        let name = rows[i]['name'];
+                        let address = rows[i]['address'];
+                        let star = rows[i]['star'];
+                        let comment = rows[i]['comment'];
+
+                        let star_image = '⭐'.repeat(star);
+
+                        let temp_html = `<div class="col cards_Box">
+                                            <div class="cards h-100">
+                                                <img src="${url}" class="card-img-top" alt="실내운동시설" onclick="window.open('https://map.naver.com/v5/search/${name}/place')">
+                                                <div class="card-body">
+                                                    <h5 class="card-title" onclick="window.open('https://map.naver.com/v5/search/${name}/place')"><a href="#">${name}</a></h5>
+                                                    <address>${address}</address>
+                                                    <p class="star-text">${star_image}</p>
+                                                    <p class="card-text">${comment}</p>
+                                                </div>
+                                            </div>
+                                        </div>`;
+                        $('#cards_box01').prepend(temp_html);
+                    }
+                }
+            });
+        }
+        //실내운동시설 추천하기- 기록
+        function in_posting(){
+            let url = $('#url').val();
+            let name = $('#name').val();
+            let address = $('#address').val();
+            let star = $('#star').val();
+            let comment = $('#comment').val();
+
+            $.ajax({
+                type: 'post',
+                url: '/incheonplace',
+                data: {url_give: url,
+                       name_give: name,
+                       address_give: address,
+                       star_give: star,
+                       comment_give: comment},
+                success: function(response) {
+                    alert(response['msg']);
+                    window.location.reload();
+                }
+            });
+        }
+
+        //실내추천하기 - 버튼 - 열고/닫기
+        function open_box01(){
+            $('#post_Box01').show();
+        }
+        function close_box01(){
+            $('#post_Box01').hide();
+        }
+
+        // ----------------------------
+        //실외운동시설 추천하기 - 조회
+        function out_listing() {
+            $.ajax({
+                type:'GET',
+                url:'/incheonoutplace',
+                data: {},
+                success:function(response) {
+                    // console.log(response['incheonoutplaces']);
+                    let rows = response['incheonoutplaces'];
+                    for ( let i = 0; i < rows.length; i++){
+                        let outurl = rows[i]['out_url'];
+                        let outname = rows[i]['out_name'];
+                        let outaddress = rows[i]['out_address'];
+                        let outstar = rows[i]['out_star'];
+                        let outcomment = rows[i]['out_comment'];
+
+                        let outstar_image = '⭐'.repeat(outstar);
+
+                        let temp_html = `<div class="col cards_Box">
+                                            <div class="cards h-100">
+                                                <img src="${outurl}" class="card-img-top" alt="실외운동시설" onclick="window.open('https://map.naver.com/v5/search/${outname}/place')">
+                                                <div class="card-body">
+                                                    <h5 class="card-title" onclick="window.open('https://map.naver.com/v5/search/${outname}/place')"><a href="#">${outname}</a></h5>
+                                                    <address>${outaddress}</address>
+                                                    <p class="star-text">${outstar_image}</p>
+                                                    <p class="card-text">${outcomment}</p>
+                                                </div>
+                                            </div>
+                                        </div>`;
+                        $('#cards_box02').prepend(temp_html);
+                    }
+                }
+            });
+        }
+        //실외운동시설 추천하기 - 기록
+        function out_posting(){
+            let out_url = $('#out_url').val();
+            let out_name = $('#out_name').val();
+            let out_address = $('#out_address').val();
+            let out_star = $('#out_star').val();
+            let out_comment = $('#out_comment').val();
+
+            $.ajax({
+                type: 'post',
+                url: '/incheonoutplace',
+                data: {outurl_give: out_url,
+                       outname_give: out_name,
+                       outaddress_give: out_address,
+                       outstar_give: out_star,
+                       outcomment_give: out_comment},
+                success: function(response) {
+                    alert(response['msg']);
+                    window.location.reload();
+                }
+            });
+        }
+
+        //실외추천하기 - 버튼 - 열고/닫기
+        function open_box02(){
+            $('#post_Box02').show();
+        }
+        function close_box02(){
+            $('#post_Box02').hide();
+        }
+
+        //top버튼
+         // 보이기 / 숨기기
+        $(function () { // 보이기 | 숨기기
+            $(window).scroll(function () {
+                if ($(this).scrollTop() > 550) { //600이 넘으면 버튼이 보여.
+                    $('.topbtnBox').show();
+                } else {//600이 안 넘으면 스르륵 사라져.
+                    $('.topbtnBox').fadeOut();
+                }
+            });
+        });
+
+    </script>
+</head>
+<body>
+    <div id="wrap">
+        <header id="orderBox"><!-- header -->
+            <h2><a href="http://jeongjin-yoon.shop/">모 운 다 모</a></h2>
+            <ul class="nav justify-content-center">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="CorrectExercise" href="http://jeongjin-yoon.shop/">맞춤운동</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="RecommendedPlaces" href="/">장소추천</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="Community" href="http://sooyeon.shop/">커뮤니티</a>
+                </li>
+            </ul>
+        </header>
+
+        <section id="infoBox"><!-- section -->
+             <h2 class="info_top">지역과 날씨</h2>
+             <div class="infowrap">
+                 <div class="where">
+                     <h3><a href="#">나의 선택장소</a></h3>
+                     <p>인천</p>
+                 </div>
+                 <div class="wheather">
+                     <h3><a href="#">나의 지역</a></h3>
+                     <p>오늘의 날씨: <span id="temp">00.0</span>도</p>
+                     <img class="wheatherimg" id="icon" src="#" alt="날씨이미지" />
+                 </div>
+             </div>
+        </section>
+        <!-- 실내추천하기 폼 -->
+        <div class="recoPost" id="post_Box01">
+            <h2 class="inplace_fmtitle"><a href="#">실내-추천하기</a></h2>
+            <div class="form-floating mb-3">
+                <input id="url" type="email" class="form-control" placeholder="이미지.확장자">
+                <label>이미지url복사 링크 입력</label>
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text name">장소 이름</span>
+                <input id="name" type="text" class="form-control">
+            </div>
+            <div class="form-floating mb-3">
+                <input type="address" id="address" class="form-control" placeholder="장소 주소">
+                <label for="floatingInput">장소 주소</label>
+            </div>
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="inputGroupSelect01">별점</label>
+                <select class="form-select" id="star">
+                    <option selected>-- 선택하기 --</option>
+                    <option value="1">⭐</option>
+                    <option value="2">⭐⭐</option>
+                    <option value="3">⭐⭐⭐</option>
+                    <option value="4">⭐⭐⭐⭐</option>
+                    <option value="5">⭐⭐⭐⭐⭐</option>
+                </select>
+            </div>
+            <div class="form-floating">
+                <textarea id="comment" class="form-control" placeholder="Leave a comment here"></textarea>
+                <label for="floatingTextarea2">추천이유 or 후기</label>
+            </div>
+            <div class="recoPost_btn">
+                <button onclick="in_posting()" class="open_Btn">추천하기</button>
+                <button onclick="close_box01()" class="close_Btn">닫기</button>
+            </div>
+        </div>
+
+        <!-- 실외추천하기 폼 -->
+        <div class="recoPost" id="post_Box02">
+            <h2 class="outplace_fmtitle"><a href="#">실외-추천하기</a></h2>
+            <div class="form-floating mb-3">
+                <input id="out_url" type="email" class="form-control" placeholder="이미지.확장자">
+                <label>이미지url복사 링크 입력</label>
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text name">장소 이름</span>
+                <input id="out_name" type="text" class="form-control">
+            </div>
+            <div class="form-floating mb-3">
+                <input type="address" id="out_address" class="form-control" placeholder="장소 주소">
+                <label for="floatingInput">장소 주소</label>
+            </div>
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="inputGroupSelect01">별점</label>
+                <select class="form-select" id="out_star">
+                    <option selected>-- 선택하기 --</option>
+                    <option value="1">⭐</option>
+                    <option value="2">⭐⭐</option>
+                    <option value="3">⭐⭐⭐</option>
+                    <option value="4">⭐⭐⭐⭐</option>
+                    <option value="5">⭐⭐⭐⭐⭐</option>
+                </select>
+            </div>
+            <div class="form-floating">
+                <textarea id="out_comment" class="form-control" placeholder="Leave a comment here"></textarea>
+                <label for="floatingTextarea2">추천이유 or 후기</label>
+            </div>
+            <div class="recoPost_btn">
+                <button onclick="out_posting()" class="open_Btn">추천하기</button>
+                <button onclick="close_box02()" class="close_Btn">닫기</button>
+            </div>
+        </div>
+
+        <article id="recommdBox"><!-- recommdBox -->
+            <h2>추천게시판</h2>
+            <article class="inplace_box"><!-- in_box-->
+                <h3><a href="#">실내운동시설</a></h3>
+                <button type="button" onclick="open_box01()">실내추천하기</button>
+                <div class="cards_row row row-cols-1 row-cols-md-2 g-4" id="cards_box01">
+                    <div class="col cards_Box">
+                        <div class="cards h-100">
+                            <img src="https://search.pstatic.net/common/?autoRotate=true&type=w560_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20210328_210%2F16169080786809cssd_JPEG%2F0qOld4svIARVA6CD8AcMp9by.jpg" class="card-img-top" alt="실내운동시설">
+                            <div class="card-body">
+                                <h5 class="card-title">인천짐</h5>
+                                <address>인천 인천구 인천동 인천로 2000</address>
+                                <p class="star-text">⭐⭐⭐</p>
+                                <p class="card-text">운동에 대한 기초적인 지식부터 꼼꼼히 알려주는 곳!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="outplace_box"><!-- out_box-->
+                <h3><a href="#">실외운동시설</a></h3>
+                <button type="button" onclick="open_box02()" class="recommend_btn2">실외추천하기</button>
+                <div class="cards_row row row-cols-1 row-cols-md-2 g-4" id="cards_box02">
+                    <div class="col cards_Box">
+                        <div class="cards h-100">
+                            <img src="https://search.pstatic.net/common/?autoRotate=true&quality=95&type=w750&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20140407_263%2F13968546335320RgrB_JPEG%2F%25BC%25AD%25BF%25EF_%25BF%25EB%25BB%25EA%25B0%25A1%25C1%25B7%25B0%25F8%25BF%25F8_1.JPG%3Ftype%3Dm500_500" class="card-img-top" alt="실외운동시설">
+                            <div class="card-body">
+                                <h5 class="card-title">인천가족공원</h5>
+                                <address>인천 인천구 인천로 137</address>
+                                <p class="star-text">⭐⭐⭐</p>
+                                <p class="card-text">주변의 푸른 조경들 보면서 눈호강 운동이 가능해서 좋아요!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </article>
+
+        <footer id="footBox"><!-- footer -->
+            <aside class="topbtnBox">
+                <a href="#">TOP</a>
+            </aside>
+            <address>
+                <a href="#">copyright &copy; 항해99 9기 사전스터디 1조 모운다모</a>
+            </address>
+            <div class="contact"></div>
+        </footer>
+    </div>
+
+</body>
+</html>
